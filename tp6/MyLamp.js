@@ -1,0 +1,57 @@
+/**
+ * MyLamp
+ * @constructor
+ */
+function MyLamp(scene, slices, stacks) {
+   CGFobject.call(this, scene);
+
+   this.slices = slices;
+   this.stacks = stacks;
+
+   this.initBuffers();
+}
+
+MyLamp.prototype = Object.create(CGFobject.prototype);
+MyLamp.prototype.constructor = MyLamp;
+
+MyLamp.prototype.initBuffers = function() {
+   /*
+    * TODO:
+    * Replace the following lines in order to build a prism with a **single mesh**.
+    *
+    * How can the vertices, indices and normals arrays be defined to
+    * build a prism with varying number of slices and stacks?
+    */
+
+   this.vertices = [];
+   this.indices = [];
+   this.normals = [];
+
+   var ang = 2 * Math.PI / this.slices;
+   var ang_vert = Math.PI/ (2 * this.stacks);
+   //Vertices & Normals
+   for (var ind = 0; ind <= this.stacks; ind++) {
+
+      for (var m = 0; m < this.slices; m++) {
+         this.vertices.push(Math.cos(ang * m) *Math.sin(Math.PI/2-ang_vert * ind) , Math.sin(ang * m) *Math.sin(Math.PI/2-ang_vert * ind) , Math.sin(ang_vert * ind));
+         this.normals.push (Math.cos(ang * m) *Math.sin(Math.PI/2-ang_vert * ind) , Math.sin(ang * m) *Math.sin(Math.PI/2-ang_vert * ind) , Math.sin(ang_vert * ind));
+      }
+   }
+
+   //Indices
+   for (var j = 0; j < this.stacks; j++) {
+      for (var i = 0; i < (this.slices); i += 1) {
+         this.indices.push((i + 1) % (this.slices) + (j + 0) * this.slices,
+                           (i + 0) % (this.slices) + (j + 1) * this.slices,
+                           (i + 0) % (this.slices) + (j + 0) * this.slices);
+
+         this.indices.push((i + 0) % (this.slices) + (j + 1) * this.slices,
+                           (i + 1) % (this.slices) + (j + 0) * this.slices,
+                           (i + 1) % (this.slices) + (j + 1) * this.slices);
+      }
+
+   }
+
+   this.primitiveType = this.scene.gl.TRIANGLES;
+   this.initGLBuffers();
+};
