@@ -7,15 +7,17 @@
 
  	this.body= new MyLamp(this.scene,12,12);
   this.arm= new MyCilinder(this.scene,12,12);
+  this.angle = 0;
 
- };
+ }
 
  MyArm.prototype = Object.create(CGFobject.prototype);
  MyArm.prototype.constructor = MyArm;
 
- MyArm.prototype.setAngle = function(angle, direction) {
- }
- 
+ MyArm.prototype.setAngle = function(angle) {
+    this.angle += angle;
+ };
+
 
  MyArm.prototype.display = function() {
 
@@ -33,9 +35,9 @@
 
 
    	this.scene.pushMatrix();
-    this.scene.rotate(Math.PI, 1,0,0)
+    this.scene.rotate(Math.PI, 1,0,0);
    	this.scene.scale(0.15, 0.15, 0.15);
 
    	this.body.display();
    	this.scene.popMatrix();
- }
+ };

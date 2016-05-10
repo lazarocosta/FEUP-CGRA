@@ -2,7 +2,7 @@
 include = function() {
    function f() {
       var a = this.readyState;
-      (!a || /ded|te/.test(a)) && (c--, !c && e && d())
+      (!a || /ded|te/.test(a)) && (c--, !c && e && d());
    }
    var a = arguments,
       b = document,
@@ -10,7 +10,7 @@ include = function() {
       d = a[c - 1],
       e = d.call;
    e && c--;
-   for (var g, h = 0; c > h; h++) g = b.createElement("script"), g.src = arguments[h], g.async = !0, g.onload = g.onerror = g.onreadystatechange = f, (b.head || b.getElementsByTagName("head")[0]).appendChild(g)
+   for (var g, h = 0; c > h; h++) g = b.createElement("script"), g.src = arguments[h], g.async = !0, g.onload = g.onerror = g.onreadystatechange = f, (b.head || b.getElementsByTagName("head")[0]).appendChild(g);
 };
 serialInclude = function(a) {
    var b = console,
@@ -28,7 +28,7 @@ serialInclude = function(a) {
          var e = c[0][0];
          c.splice(0, 1);
          e.call();
-      };
+      }
    } else b.log("Finished.");
 };
 serialInclude.l = new Array();
@@ -43,14 +43,14 @@ serialInclude([
    'MyPrism.js',
    'MyCilinder.js',
    'MyCircle.js',
-    'MyClock.js',
-    'MyClockHand.js',
-    'MyInterface.js',
-    'MyDrone.js',
-    'MyLamp.js',
-    'MyArm.js',
-    'MyLegs.js',
-  
+   'MyClock.js',
+   'MyClockHand.js',
+   'MyInterface.js',
+   'MyDrone.js',
+   'MyLamp.js',
+   'MyArm.js',
+   //'MyLegs.js',
+
 
 
    main = function() {
