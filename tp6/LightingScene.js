@@ -40,6 +40,7 @@ LightingScene.prototype.init = function(application) {
 	this.cilinder = new MyCilinder(this, 8, 20);
 	this.clock= new MyClock(this,12,1);
 	this.drone = new MyDrone(this);
+	this.legs = new MyLegs(this,12);
 
 
 
@@ -290,6 +291,9 @@ LightingScene.prototype.display = function() {
 		this.materialB.apply();
 		this.drone.display();
 		this.popMatrix();
+
+
+		this.legs.display();
 
 
 

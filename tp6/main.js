@@ -49,6 +49,8 @@ serialInclude([
     'MyDrone.js',
     'MyLamp.js',
     'MyArm.js',
+    'MyLegs.js',
+  
 
 
    main = function() {
