@@ -9,6 +9,8 @@
 	this.stacks = stacks;
 	this.angulo = 2*Math.PI / slices;
   this.circle = new MyCircle(this.scene, slices);
+  this.textS= 1 /  this.slices;
+  this.textT= 1 / this.stacks;
 
  	this.initBuffers();
  };
@@ -28,16 +30,21 @@
  	this.vertices = [];
   this.indices = [];
   this.normals = [];
+//  this.texCoords = [];
 
   var norm = this.angulo/2;
   var z;
-  var incre_z= 1/this.stacks;
+  var incre_z= 1 / this.stacks;
+  var s = 0;
+  var t = 0
 
-  for(i=0; i<this.slices; i++)
+  for(i=0; i < this.slices; i++)
   {
     var x;
     var y;
-    z=0
+    z=0;
+    s=0;
+
 
 	 for(stack=0; stack < this.stacks; stack++)
 	 {
@@ -46,6 +53,7 @@
 
     this.vertices.push(x,y,z);
     this.vertices.push(x,y,z+incre_z);
+
 
     x = Math.cos(i*this.angulo);
     y = Math.sin(i*this.angulo);

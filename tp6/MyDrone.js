@@ -90,6 +90,7 @@ MyDrone.prototype.up = function(ofset) {
  this.scene.pushMatrix();
   this.scene.translate(0,0,-1.5);
   this.scene.scale(0.2,0.2,3);
+
   this.cilinder1.display();
   this.scene.popMatrix();
 
@@ -102,7 +103,10 @@ MyDrone.prototype.up = function(ofset) {
 
   this.scene.pushMatrix();
   this.scene.rotate(-Math.PI/2,1,0,0);
+
+  this.scene.boardAppearance.apply();
   this.body.display();
+    this.scene.materialB.apply();
   this.circle.display();
   this.scene.popMatrix();
 

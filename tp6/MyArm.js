@@ -12,8 +12,10 @@
 
  MyArm.prototype = Object.create(CGFobject.prototype);
  MyArm.prototype.constructor = MyArm;
- 
 
+ MyArm.prototype.setAngle = function(angle, direction) {
+ }
+ 
 
  MyArm.prototype.display = function() {
 
@@ -33,13 +35,7 @@
    	this.scene.pushMatrix();
     this.scene.rotate(Math.PI, 1,0,0)
    	this.scene.scale(0.15, 0.15, 0.15);
+
    	this.body.display();
    	this.scene.popMatrix();
-
-
-
-
-
-
-
  }

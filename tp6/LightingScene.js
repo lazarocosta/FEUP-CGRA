@@ -266,8 +266,10 @@ LightingScene.prototype.display = function() {
 		this.translate(5, 3.7, 7.9);
 		this.rotate(-Math.PI/2,1,0,0);
 		this.materialB.apply();
+	//	this.boardAppearance.apply();
 		this.prism.display();
 		this.translate(7,0,0);
+
 		this.cilinder.display();
 	 	this.popMatrix();
 
