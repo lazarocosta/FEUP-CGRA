@@ -29,6 +29,7 @@ function MyDrone(scene) {
    this.frontArm = new MyArm(this.scene);
    this.sideArm = new MyArm(this.scene);
    this.backArm = new MyArm(this.scene);
+   this.legs = new MyLegs(this.scene,12);
 
    this.initBuffers();
 }
@@ -196,6 +197,17 @@ MyDrone.prototype.display = function() {
    this.scene.rotate(Math.PI / 2, 1, 0, 0);
    this.scene.rotate(-this.backArm.angle, 0, 0, 1);
    this.backArm.display();
+   this.scene.popMatrix();
+
+   this.scene.pushMatrix();
+   this.scene.translate(-0.5,-1.2,0.2);
+   this.scene.rotate(Math.PI, 0, 1,0);
+   this.legs.display();
+   this.scene.popMatrix();
+
+   this.scene.pushMatrix();
+   this.scene.translate(0.5,-1.2,-0.2);
+   this.legs.display();
    this.scene.popMatrix();
 
 };

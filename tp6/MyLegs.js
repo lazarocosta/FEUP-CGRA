@@ -7,6 +7,7 @@
 
 	this.slices = slices;
 	this.angulo = (2*Math.PI)/(4*this.slices);
+  this.base = new MyUnitCubeQuad(this.scene);
 //  this.textS = 1.0 / this.slices;
   //this.textT = 1.0 / this.stacks;
 
@@ -46,19 +47,27 @@ MyLegs.prototype = Object.create(CGFobject.prototype);
 
       this.indices.push(2*i+1, 2*i+3, 2*i+2);
       this.indices.push(2*i+2, 2*i+3, 2*i+1);
-
     }
 
  	this.primitiveType = this.scene.gl.TRIANGLES;
  	this.initGLBuffers();
  };
-/*
+
  MyLegs.prototype.display = function() {
 
+   this.scene.pushMatrix();
+   this.scene.scale(1,1,0.5);
    CGFobject.prototype.display.call(this);
-    this.circle.display();
-    this.scene.rotate(Math.PI,1,0,0);
-    this.scene.translate(0,0,-1);
-    this.circle.display();
+   this.scene.popMatrix();
 
-  }*/
+
+   this.scene.pushMatrix();
+   this.scene.translate(1,0,0.2);
+   this.scene.scale(0.5,0.05,3 );
+   this.base.display();
+   this.scene.popMatrix();
+
+
+
+
+  }
