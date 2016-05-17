@@ -138,5 +138,19 @@ MyInterface.prototype.processKeyboard = function(event) {
       case (106): // only works for capital 'j', as it is
          this.scene.drone.up(-0.5);
          break;
+
+      case (80): // only works for capital 'P', as it is
+          this.scene.drone.setStrain(-1);
+          break;
+      case (112): // only works for capital 'p', as it is
+          this.scene.drone.setStrain(-1);
+          break;
+
+      case (76): // only works for capital 'L', as it is
+          this.scene.drone.setStrain(1);
+          break;
+      case (108): // only works for capital 'l', as it is
+          this.scene.drone.setStrain(1);
+          break;
    }
 };

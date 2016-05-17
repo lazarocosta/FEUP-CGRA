@@ -47,7 +47,7 @@ LightingScene.prototype.init = function(application) {
    this.cilinder = new MyCilinder(this, 8, 20);
    this.clock = new MyClock(this, 12, 1);
    this.drone = new MyDrone(this);
-   //this.legs = new MyLegs(this, 12);
+   this.target= new MyQuad(this, 0, 1, 0, 1);
 
 
 
@@ -123,6 +123,12 @@ LightingScene.prototype.init = function(application) {
    this.clockAppearance.setShininess(150);
    this.clockAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
    this.clockAppearance.loadTexture("..//resources//images//clock.png");
+
+   this.targetAppearance = new CGFappearance(this);
+   this.targetAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
+   this.targetAppearance.setShininess(150);
+   this.targetAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
+   this.targetAppearance.loadTexture("..//resources//images//alvo.png");
 
 
 
@@ -213,7 +219,7 @@ LightingScene.prototype.display = function() {
 
 
    // Floor
-   /*this.pushMatrix();
+   this.pushMatrix();
    this.translate(7.5, 0, 7.5);
    this.rotate(-90 * degToRad, 1, 0, 0);
    this.scale(15, 15, 0.2);
@@ -271,13 +277,13 @@ LightingScene.prototype.display = function() {
 
    //Prism and cylinder
    this.pushMatrix();
-   this.translate(5, 3.7, 7.9);
+   this.translate(4, 3.7, 7.9);
    this.rotate(-Math.PI / 2, 1, 0, 0);
+   this.scale(0.8,0.8,0.8)
    this.materialB.apply();
    //	this.boardAppearance.apply();
    this.prism.display();
-   this.translate(7, 0, 0);
-
+   this.translate(3, 0, 0);
    this.cilinder.display();
    this.popMatrix();
 
@@ -290,7 +296,7 @@ LightingScene.prototype.display = function() {
    this.scale(1, 1, 0.5);
    this.rotate(180 * degToRad, 0, 1, 0);
    this.clock.display();
-   this.popMatrix();*/
+   this.popMatrix();
 
    this.pushMatrix();
    this.translate(7, 5, 7);
@@ -299,11 +305,13 @@ LightingScene.prototype.display = function() {
    this.drone.display();
    this.popMatrix();
 
-
-   //this.legs.display();
-
-
-
+   this.pushMatrix();
+   this.translate(12,3.67,8);
+   this.scale(2.5,1,2.5);
+   this.rotate(-Math.PI/2,1,0,0);
+   this.targetAppearance.apply();
+   this.target.display();
+   this.popMatrix();
 
 
 

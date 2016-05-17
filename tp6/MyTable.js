@@ -13,7 +13,16 @@
  MyTable.prototype.constructor = MyTable;
 
  MyTable.prototype.display = function() {
- 	// legs
+
+   // table top
+  	this.scene.pushMatrix();
+  	this.scene.translate(0, 3.5, 0);
+  	this.scene.scale(5, 0.3, 3);
+ 	this.scene.tableAppearance.apply();
+  	this.myUnitCubeQuad.display();
+  	this.scene.popMatrix();
+
+  // legs
  	this.scene.pushMatrix();
  	this.scene.translate(2, 3.5 / 2, 1);
  	this.scene.scale(0.3, 3.5, 0.3);
@@ -39,11 +48,5 @@
  	this.myUnitCubeQuad.display();
  	this.scene.popMatrix();
 
- 	// table top
- 	this.scene.pushMatrix();
- 	this.scene.translate(0, 3.5, 0);
- 	this.scene.scale(5, 0.3, 3);
-	this.scene.tableAppearance.apply();
- 	this.myUnitCubeQuad.display();
- 	this.scene.popMatrix();
+
  }

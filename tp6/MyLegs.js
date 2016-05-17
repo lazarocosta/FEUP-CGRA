@@ -58,16 +58,12 @@ MyLegs.prototype = Object.create(CGFobject.prototype);
       for(j=1; j < this.stacks; j++)
       {
         this.indices.push(i*(this.stacks+1)+j,i*(this.stacks+1)+j+1,(i+1)*(this.stacks+1)+j);
-        this.indices.push((i+1)*(this.stacks+1)+j,i*(this.stacks+1)+j+1,(i+1)*(this.stacks+1)+j+1);
+        this.indices.push((i+1)*(this.stacks+1)+j,i*(this.stacks+1)+j+1,(i+1)*(this.stacks+1)+j+1);//
         //
         this.indices.push((i+1)*(this.stacks+1)+j,i*(this.stacks+1)+j+1,i*(this.stacks+1)+j);
         this.indices.push((i+1)*(this.stacks+1)+j+1,i*(this.stacks+1)+j+1,(i+1)*(this.stacks+1)+j);
 
       }
-
-      //this.indices.push(2*i+1, 2*i+3, 2*i+2);
-    //  this.indices.push(2*i+2, 2*i+3, 2*i+1);
-      //this.indices.push(2*i+2, 2*i+1, 2*i);
       this.indices.push( (this.stacks+1)*i+(this.stacks+1),(this.stacks+1)*i+1,i*(this.stacks+1));
       this.indices.push((this.stacks+1)*i+(this.stacks+1)+1,(this.stacks+1)*i+1, (this.stacks+1)*i+(this.stacks+1));
 
@@ -80,18 +76,20 @@ MyLegs.prototype = Object.create(CGFobject.prototype);
  MyLegs.prototype.display = function() {
 
    this.scene.pushMatrix();
-   this.scene.scale(1,1,0.5);
+   this.scene.translate(0,0.2,0.65);
+   this.scene.scale(1,1,0.15);
    CGFobject.prototype.display.call(this);
    this.scene.popMatrix();
 
+   this.scene.pushMatrix();
+   this.scene.translate(0,0.2,-0.6);
+   this.scene.scale(1,1,0.15);
+   CGFobject.prototype.display.call(this);
+   this.scene.popMatrix();
 
    this.scene.pushMatrix();
-   this.scene.translate(1,0,0.2);
+   this.scene.translate(1,0.2,0.2);
    this.scene.scale(0.5,0.05,3 );
    this.base.display();
    this.scene.popMatrix();
-
-
-
-
   }

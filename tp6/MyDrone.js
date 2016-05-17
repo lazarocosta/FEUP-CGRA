@@ -22,6 +22,7 @@ function MyDrone(scene) {
    this.x = 0;
    this.y = 0;
    this.z = 0;
+   this.strain=1;
 
    this.cilinder1 = new MyCilinder(this.scene, 12, 1);
    this.cilinder2 = new MyCilinder(this.scene, 12, 1);
@@ -30,8 +31,9 @@ function MyDrone(scene) {
    this.frontArm = new MyArm(this.scene);
    this.sideArm = new MyArm(this.scene);
    this.backArm = new MyArm(this.scene);
-   //this.legs = new MyLegs(this.scene,12);
-   this.legs = new MyLegs(this.scene,12,5);
+   this.legs = new MyLegs(this.scene,12,1);
+   this.hook = new MyCilinder(this.scene, 3, 1);
+   this.box = new MyUnitCubeQuad(this.scene);
 
    this.incline = false;
 
@@ -77,7 +79,7 @@ MyDrone.prototype.move = function(ofset) {
    this.x += ofset * Math.sin(this.angle * degToRad);
    this.z += ofset * Math.cos(this.angle * degToRad);
 
-   if (this.x > 4.5) {
+  /* if (this.x > 4.5) {
       this.x = 4.5;
       this.z = z;
    }
@@ -85,8 +87,23 @@ MyDrone.prototype.move = function(ofset) {
    if (this.z > 4.3) {
       this.z = 4.3;
       this.x = x;
-   }
+   }*/
 };
+MyDrone.prototype.setStrain = function(direcion){
+
+  if(direcion==-1)
+  {
+    if(this.strain > 0.1)
+      this.strain-=0.1;
+  }
+  if(direcion==1)
+  this.strain+=0.1;
+
+  console.log(this.strain);
+
+
+};
+
 
 MyDrone.prototype.setIncline = function(tilt){
    this.incline = true;
@@ -101,8 +118,8 @@ MyDrone.prototype.setIncline = function(tilt){
 MyDrone.prototype.up = function(offset) {
 
    this.y += offset;
-   if (this.y < -4.75)
-      this.y = -4.75;
+  /* if (this.y < -4.75)
+      this.y = -4.75;*/
 };
 
 MyDrone.prototype.update = function(DIRECTION) {
@@ -130,11 +147,20 @@ MyDrone.prototype.update = function(DIRECTION) {
 MyDrone.prototype.display = function() {
 
    // this.scene.rotate(20 * degToRad,0,1,0);
-
    //this.x += ofset * Math.sin(this.angle * degToRad);
    //this.z += ofset * Math.cos(this.angle * degToRad);
 
    this.scene.translate(this.x, this.y, this.z);
+
+   this.scene.pushMatrix();
+   this.scene.rotate(Math.PI/2,1,0,0);
+   this.scene.scale(0.1,0.1,this.strain);
+   this.hook.display();
+   this.scene.popMatrix();
+
+   /*this.scene.pushMatrix();
+   this.box.display();
+   this.scene.popMatrix();*/
 
    this.scene.rotate(this.angle * degToRad, 0, 1, 0);
 
@@ -224,7 +250,7 @@ MyDrone.prototype.display = function() {
    this.backArm.display();
    this.scene.popMatrix();
 
-   /*this.scene.pushMatrix();
+   this.scene.pushMatrix();
    this.scene.translate(-0.5,-1.0,0.2);
    this.scene.rotate(Math.PI, 0, 1,0);
    this.scene.scale(0.9, 0.9, 0.9);
@@ -235,6 +261,8 @@ MyDrone.prototype.display = function() {
    this.scene.translate(0.5,-1.0,-0.2);
    this.scene.scale(0.9, 0.9, 0.9);
    this.legs.display();
-   this.scene.popMatrix();*/
+   this.scene.popMatrix();
+
+
 
 };
