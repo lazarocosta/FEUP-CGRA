@@ -66,6 +66,9 @@ MyInterface.prototype.processKeyUp = function(event) {
    // call CGFinterface default code (omit if you want to override)
    CGFinterface.prototype.processKeyUp.call(this, event);
 	this.scene.currentDIR = this.scene.DIRECTION.STATIC;
+   this.scene.drone.setIncline(0);
+
+
 };
 
 
@@ -83,38 +86,42 @@ MyInterface.prototype.processKeyboard = function(event) {
    // for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
    switch (event.which || event.keyCode) {
       case (65): // only works for capital 'A', as it is
-         this.scene.drone.setAngle(10);
+         this.scene.drone.setAngle(5);
 			this.scene.currentDIR = this.scene.DIRECTION.ROTATION;
          break;
       case (97): // only works for capital 'a', as it is
-         this.scene.drone.setAngle(10);
+         this.scene.drone.setAngle(5);
 			this.scene.currentDIR = this.scene.DIRECTION.ROTATION;
          break;
 
       case (68): // only works for capital 'D', as it is
-         this.scene.drone.setAngle(-10);
+         this.scene.drone.setAngle(-5);
 			this.scene.currentDIR = this.scene.DIRECTION.ROTATION;
          break;
       case (100): // only works for capital 'd', as it is
-         this.scene.drone.setAngle(-10);
+         this.scene.drone.setAngle(-5);
 			this.scene.currentDIR = this.scene.DIRECTION.ROTATION;
          break;
 
       case (87): // only works for capital 'W', as it is
          this.scene.drone.move(0.5);
+         this.scene.drone.setIncline(true);
 			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
          break;
       case (119): // only works for capital 'w', as it is
          this.scene.drone.move(0.5);
+         this.scene.drone.setIncline(true);
 			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
          break;
 
       case (83): // only works for capital 'S', as it is
          this.scene.drone.move(-0.5);
+         this.scene.drone.setIncline(-1);
 			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
          break;
       case (115): // only works for capital 's', as it is
          this.scene.drone.move(-0.5);
+         this.scene.drone.setIncline(-1);
 			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
          break;
 

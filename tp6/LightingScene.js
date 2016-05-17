@@ -213,7 +213,7 @@ LightingScene.prototype.display = function() {
 
 
    // Floor
-   this.pushMatrix();
+   /*this.pushMatrix();
    this.translate(7.5, 0, 7.5);
    this.rotate(-90 * degToRad, 1, 0, 0);
    this.scale(15, 15, 0.2);
@@ -290,7 +290,7 @@ LightingScene.prototype.display = function() {
    this.scale(1, 1, 0.5);
    this.rotate(180 * degToRad, 0, 1, 0);
    this.clock.display();
-   this.popMatrix();
+   this.popMatrix();*/
 
    this.pushMatrix();
    this.translate(7, 5, 7);

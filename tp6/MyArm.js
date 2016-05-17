@@ -15,29 +15,29 @@
  MyArm.prototype.constructor = MyArm;
 
  MyArm.prototype.setAngle = function(angle) {
-    this.angle += angle;
+    this.angle = (this.angle + angle) % (Math.PI*2) ;
+
  };
 
 
  MyArm.prototype.display = function() {
 
    this.scene.pushMatrix();
-   	this.scene.scale(0.15, 0.4, 0.15);
+   	this.scene.scale(0.07, 0.30, 0.05);
    	this.scene.translate(0.0, -1.0, 0.0);
    	this.arm.display();
    	this.scene.popMatrix();
 
     this.scene.pushMatrix();
-     this.scene.scale(0.15, 0.4, 0.15);
+     this.scene.scale(0.07, 0.30, 0.05);
      this.scene.translate(0.0, 1.0, 0.0);
      this.arm.display();
      this.scene.popMatrix();
 
 
    	this.scene.pushMatrix();
-    this.scene.rotate(Math.PI, 1,0,0);
-   	this.scene.scale(0.15, 0.15, 0.15);
-
+      this.scene.rotate(Math.PI, 1,0,0);
+   	this.scene.scale(0.12, 0.12, 0.15);
    	this.body.display();
    	this.scene.popMatrix();
  };
