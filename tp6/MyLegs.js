@@ -2,11 +2,13 @@
  * MyLegs
  * @constructor
  */
- function MyLegs(scene, slices) {
+ function MyLegs(scene, slices, stacks) {
  	CGFobject.call(this,scene);
 
 	this.slices = slices;
+  this.stacks = stacks
 	this.angulo = (2*Math.PI)/(4*this.slices);
+  this.increZ= 1/this.stacks;
   this.base = new MyUnitCubeQuad(this.scene);
 //  this.textS = 1.0 / this.slices;
   //this.textT = 1.0 / this.stacks;
@@ -24,7 +26,7 @@ MyLegs.prototype = Object.create(CGFobject.prototype);
   this.normals = [];
   //this.texCoords = [];
 
-  var x, y,z,i;
+  var x, y,z,i, j;
 
     for(i=0; i <=this.slices;i++)
     {
@@ -35,18 +37,40 @@ MyLegs.prototype = Object.create(CGFobject.prototype);
       this.vertices.push(x,y,z);
       this.normals.push(x,y,z);
 
-      z++;
+      for(j=0; j <this.stacks-1; j++ )
+      {
+        z+=this.increZ;
+        this.vertices.push(x,y,z);
+        this.normals.push(x,y,z);
+
+      }
+
+      z+=this.increZ;
       this.vertices.push(x,y,z);
       this.normals.push(x,y,z);
     }
 
     for(i=0; i < this.slices; i++)
     {
-      this.indices.push(i*2,2*i+1,2*i+2);
-      this.indices.push(2*i+2,2*i+1,i*2);
+      this.indices.push(i*(this.stacks+1),(this.stacks+1)*i+1,(this.stacks+1)*i+(this.stacks+1));
+      this.indices.push((this.stacks+1)*i+(this.stacks+1),(this.stacks+1)*i+1,(this.stacks+1)*i+(this.stacks+1)+1);
 
-      this.indices.push(2*i+1, 2*i+3, 2*i+2);
-      this.indices.push(2*i+2, 2*i+3, 2*i+1);
+      for(j=1; j < this.stacks; j++)
+      {
+        this.indices.push(i*(this.stacks+1)+j,i*(this.stacks+1)+j+1,(i+1)*(this.stacks+1)+j);
+        this.indices.push((i+1)*(this.stacks+1)+j,i*(this.stacks+1)+j+1,(i+1)*(this.stacks+1)+j+1);
+        //
+        this.indices.push((i+1)*(this.stacks+1)+j,i*(this.stacks+1)+j+1,i*(this.stacks+1)+j);
+        this.indices.push((i+1)*(this.stacks+1)+j+1,i*(this.stacks+1)+j+1,(i+1)*(this.stacks+1)+j);
+
+      }
+
+      //this.indices.push(2*i+1, 2*i+3, 2*i+2);
+    //  this.indices.push(2*i+2, 2*i+3, 2*i+1);
+      //this.indices.push(2*i+2, 2*i+1, 2*i);
+      this.indices.push( (this.stacks+1)*i+(this.stacks+1),(this.stacks+1)*i+1,i*(this.stacks+1));
+      this.indices.push((this.stacks+1)*i+(this.stacks+1)+1,(this.stacks+1)*i+1, (this.stacks+1)*i+(this.stacks+1));
+
     }
 
  	this.primitiveType = this.scene.gl.TRIANGLES;
