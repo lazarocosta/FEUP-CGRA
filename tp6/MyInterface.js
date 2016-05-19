@@ -104,39 +104,39 @@ MyInterface.prototype.processKeyboard = function(event) {
          break;
 
       case (87): // only works for capital 'W', as it is
-         this.scene.drone.move(0.5);
+         this.scene.drone.move(0.25);
          this.scene.drone.setIncline(true);
 			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
          break;
       case (119): // only works for capital 'w', as it is
-         this.scene.drone.move(0.5);
+         this.scene.drone.move(0.25);
          this.scene.drone.setIncline(true);
 			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
          break;
 
       case (83): // only works for capital 'S', as it is
-         this.scene.drone.move(-0.5);
+         this.scene.drone.move(-0.25);
          this.scene.drone.setIncline(-1);
 			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
          break;
       case (115): // only works for capital 's', as it is
-         this.scene.drone.move(-0.5);
+         this.scene.drone.move(-0.25);
          this.scene.drone.setIncline(-1);
 			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
          break;
 
       case (73): // only works for capital 'I', as it is
-         this.scene.drone.up(0.5);
+         this.scene.drone.up(0.25);
          break;
       case (105): // only works for capital 'i', as it is
-         this.scene.drone.up(0.5);
+         this.scene.drone.up(0.25);
          break;
 
       case (74): // only works for capital 'J', as it is
-         this.scene.drone.up(-0.5);
+         this.scene.drone.up (-0.25);
          break;
       case (106): // only works for capital 'j', as it is
-         this.scene.drone.up(-0.5);
+         this.scene.drone.up(-0.25);
          break;
 
       case (80): // only works for capital 'P', as it is

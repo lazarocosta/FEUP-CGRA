@@ -24,6 +24,7 @@ function MyDrone(scene) {
    this.z = 0;
    this.strain=1;
 
+
    this.cilinder1 = new MyCilinder(this.scene, 12, 1);
    this.cilinder2 = new MyCilinder(this.scene, 12, 1);
    this.body = new MyLamp(this.scene, 12, 12);
@@ -36,6 +37,8 @@ function MyDrone(scene) {
    this.box = new MyUnitCubeQuad(this.scene);
 
    this.incline = false;
+   this.upBox= false;
+   this.destination=false;
 
 
    this.initBuffers();
@@ -79,27 +82,49 @@ MyDrone.prototype.move = function(ofset) {
    this.x += ofset * Math.sin(this.angle * degToRad);
    this.z += ofset * Math.cos(this.angle * degToRad);
 
-  /* if (this.x > 4.5) {
-      this.x = 4.5;
-      this.z = z;
-   }
-
-   if (this.z > 4.3) {
-      this.z = 4.3;
-      this.x = x;
-   }*/
+   this.ifLift();
+   console.log("x:"+this.x+ " y:"+this.y+ " z:"+this.z);
+   this.destDone();
 };
+
+MyDrone.prototype.ifLift = function(){
+
+  var dy= this.y-this.strain;
+  if(this.x>=1.90 && (this.x <= 2.1))
+  {
+    if((this.z <=-5.9) && (this.z >= -6.1))
+    {
+      if(dy>= -4.4 && dy<= -4.2)
+        this.upBox=true;
+    }
+  }
+}
+
+MyDrone.prototype.destDone = function(){
+
+  var dy= this.y-this.strain;
+
+  if(this.x <-4.6 && this.x > -5.4)
+    if(this.z < -0.3 && this.z> -1.3)
+      if(dy < -0.6 && dy > -1.4)
+        this.destination=true;
+}
+
+
 MyDrone.prototype.setStrain = function(direcion){
 
   if(direcion==-1)
   {
-    if(this.strain > 0.1)
+    if(this.strain > 0.6)
       this.strain-=0.1;
   }
   if(direcion==1)
   this.strain+=0.1;
 
-  console.log(this.strain);
+  var esta= this.y-this.strain;
+  console.log(esta);
+  this.ifLift();
+  this.destDone();
 
 
 };
@@ -115,11 +140,14 @@ MyDrone.prototype.setIncline = function(tilt){
       this.incline = false;
 };
 
-MyDrone.prototype.up = function(offset) {
+MyDrone.prototype.up= function(value) {
 
-   this.y += offset;
-  /* if (this.y < -4.75)
-      this.y = -4.75;*/
+   this.y += value;
+   this.destDone();
+   this.ifLift();
+
+    var esta= this.y-this.strain;
+    console.log(esta);
 };
 
 MyDrone.prototype.update = function(DIRECTION) {
@@ -146,11 +174,26 @@ MyDrone.prototype.update = function(DIRECTION) {
 
 MyDrone.prototype.display = function() {
 
-   // this.scene.rotate(20 * degToRad,0,1,0);
-   //this.x += ofset * Math.sin(this.angle * degToRad);
-   //this.z += ofset * Math.cos(this.angle * degToRad);
+  this.z += ofset * Math.cos(this.angle * degToRad);
+
+   if(!this.upBox)
+   {
+     this.scene.pushMatrix();
+     this.scene.translate(2,-4.4,-6);
+     this.box.display();
+     this.scene.popMatrix();
+ }
+
+  if(this.destination)
+  {
+    this.scene.pushMatrix();
+    this.scene.translate(-5,-0.8,-1);
+    this.box.display();
+    this.scene.popMatrix();
+  }
 
    this.scene.translate(this.x, this.y, this.z);
+   this.scene.rotate(this.angle * degToRad, 0, 1, 0);
 
    this.scene.pushMatrix();
    this.scene.rotate(Math.PI/2,1,0,0);
@@ -158,11 +201,13 @@ MyDrone.prototype.display = function() {
    this.hook.display();
    this.scene.popMatrix();
 
-   /*this.scene.pushMatrix();
-   this.box.display();
-   this.scene.popMatrix();*/
-
-   this.scene.rotate(this.angle * degToRad, 0, 1, 0);
+   if(this.upBox && !this.destination)
+   {
+     this.scene.pushMatrix();
+     this.scene.translate(0,-this.strain,0);
+     this.box.display();
+     this.scene.popMatrix();
+   }
 
    if(this.incline){
       this.scene.rotate(this.angleInclination * degToRad, 1,0,0);
@@ -190,7 +235,6 @@ MyDrone.prototype.display = function() {
    this.scene.materialB.apply();
    this.circle.display();
    this.scene.popMatrix();
-
 
    this.scene.pushMatrix();
    this.scene.rotate(-Math.PI / 2, 1, 0, 0);
@@ -262,7 +306,4 @@ MyDrone.prototype.display = function() {
    this.scene.scale(0.9, 0.9, 0.9);
    this.legs.display();
    this.scene.popMatrix();
-
-
-
 };
