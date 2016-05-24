@@ -16,6 +16,7 @@ var SPEED = {
 
 function MyDrone(scene) {
    CGFobject.call(this, scene);
+
    this.scene = scene;
    this.angle = 0;
    this.angleInclination = 0;
@@ -23,6 +24,10 @@ function MyDrone(scene) {
    this.y = 0;
    this.z = 0;
    this.strain=1;
+   this.rotacion;
+   this.incline = false;
+   this.upBox= false;
+   this.destination=false;
 
 
    this.cilinder1 = new MyCilinder(this.scene, 12, 1);
@@ -33,12 +38,8 @@ function MyDrone(scene) {
    this.sideArm = new MyArm(this.scene);
    this.backArm = new MyArm(this.scene);
    this.legs = new MyLegs(this.scene,12,1);
-   this.hook = new MyCilinder(this.scene, 3, 1);
    this.box = new MyUnitCubeQuad(this.scene);
-
-   this.incline = false;
-   this.upBox= false;
-   this.destination=false;
+   this.hook=new MyHook(this.scene);
 
 
    this.initBuffers();
@@ -48,7 +49,7 @@ MyDrone.prototype = Object.create(CGFobject.prototype);
 MyDrone.prototype.constructor = MyDrone;
 
 
-MyDrone.prototype.initBuffers = function() {
+/*MyDrone.prototype.initBuffers = function() {
    this.vertices = [
       0.5, 0.3, 0, -0.5, 0.3, 0,
       0, 0.3, 2,
@@ -67,7 +68,7 @@ MyDrone.prototype.initBuffers = function() {
 
    this.primitiveType = this.scene.gl.TRIANGLES;
    this.initGLBuffers();
-};
+};*/
 
 MyDrone.prototype.setAngle = function(angle) {
    this.angle += angle;
@@ -90,11 +91,11 @@ MyDrone.prototype.move = function(ofset) {
 MyDrone.prototype.ifLift = function(){
 
   var dy= this.y-this.strain;
-  if(this.x>=1.90 && (this.x <= 2.1))
+  if(this.x>=1.60 && (this.x <= 2.1))
   {
-    if((this.z <=-5.9) && (this.z >= -6.1))
+    if((this.z <=-5.7) && (this.z >= -6.3))
     {
-      if(dy>= -4.4 && dy<= -4.2)
+      if(dy>= -4.2   && dy<= -3.8)
         this.upBox=true;
     }
   }
@@ -104,10 +105,14 @@ MyDrone.prototype.destDone = function(){
 
   var dy= this.y-this.strain;
 
-  if(this.x <-4.6 && this.x > -5.4)
-    if(this.z < -0.3 && this.z> -1.3)
-      if(dy < -0.6 && dy > -1.4)
-        this.destination=true;
+  if(this.x <-4.75 && this.x > -6)
+    if(this.z < -0.5 && this.z> -2)
+      if(dy < -0.3 && dy > -0.7)
+        {
+          this.destination=true;
+          this.rotacion=  this.angle;
+        }
+
 }
 
 
@@ -115,11 +120,13 @@ MyDrone.prototype.setStrain = function(direcion){
 
   if(direcion==-1)
   {
-    if(this.strain > 0.6)
+    if(this.strain > 0.3)
       this.strain-=0.1;
   }
   if(direcion==1)
   this.strain+=0.1;
+
+  this.hook.setStrain(direcion);
 
   var esta= this.y-this.strain;
   console.log(esta);
@@ -174,7 +181,7 @@ MyDrone.prototype.update = function(DIRECTION) {
 
 MyDrone.prototype.display = function() {
 
-  this.z += ofset * Math.cos(this.angle * degToRad);
+  //this.z += ofset * Math.cos(this.angle * degToRad);
 
    if(!this.upBox)
    {
@@ -188,6 +195,7 @@ MyDrone.prototype.display = function() {
   {
     this.scene.pushMatrix();
     this.scene.translate(-5,-0.8,-1);
+    this.scene.rotate(this.rotacion * degToRad, 0, 1, 0);
     this.box.display();
     this.scene.popMatrix();
   }
@@ -195,16 +203,13 @@ MyDrone.prototype.display = function() {
    this.scene.translate(this.x, this.y, this.z);
    this.scene.rotate(this.angle * degToRad, 0, 1, 0);
 
-   this.scene.pushMatrix();
-   this.scene.rotate(Math.PI/2,1,0,0);
-   this.scene.scale(0.1,0.1,this.strain);
-   this.hook.display();
-   this.scene.popMatrix();
+      this.hook.display();
 
    if(this.upBox && !this.destination)
    {
      this.scene.pushMatrix();
-     this.scene.translate(0,-this.strain,0);
+     this.scene.translate(0,-this.strain-0.55,0);
+     this.scene.boardAppearance.apply();
      this.box.display();
      this.scene.popMatrix();
    }
@@ -213,6 +218,8 @@ MyDrone.prototype.display = function() {
       this.scene.rotate(this.angleInclination * degToRad, 1,0,0);
       //this.scene.rotate(this.angleInclination * this.angle, 0,1,0);
    }
+
+
 
    this.scene.pushMatrix();
    this.scene.translate(0, 0, -1.5);

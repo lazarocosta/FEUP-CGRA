@@ -50,6 +50,7 @@ serialInclude([
    'MyLamp.js',
    'MyArm.js',
    'MyLegs.js',
+   'MyHook.js',
 
 
 
