@@ -1,5 +1,8 @@
 /**
  * MyPrism
+ *Não esta a ser usado
+ *
+ *
  * @constructor
  */
  function MyPrism(scene, slices, stacks) {

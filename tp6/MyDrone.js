@@ -187,6 +187,7 @@ MyDrone.prototype.display = function() {
    {
      this.scene.pushMatrix();
      this.scene.translate(2,-4.4,-6);
+     this.scene.fronteAppearance.apply();
      this.box.display();
      this.scene.popMatrix();
  }
@@ -196,6 +197,7 @@ MyDrone.prototype.display = function() {
     this.scene.pushMatrix();
     this.scene.translate(-5,-0.8,-1);
     this.scene.rotate(this.rotacion * degToRad, 0, 1, 0);
+    this.scene.fronteAppearance.apply();
     this.box.display();
     this.scene.popMatrix();
   }
@@ -203,13 +205,14 @@ MyDrone.prototype.display = function() {
    this.scene.translate(this.x, this.y, this.z);
    this.scene.rotate(this.angle * degToRad, 0, 1, 0);
 
-      this.hook.display();
+    this.scene.greyAppearance.apply();
+    this.hook.display();
 
    if(this.upBox && !this.destination)
    {
      this.scene.pushMatrix();
      this.scene.translate(0,-this.strain-0.55,0);
-     this.scene.boardAppearance.apply();
+     this.scene.boxAppearance.apply();
      this.box.display();
      this.scene.popMatrix();
    }
@@ -224,6 +227,7 @@ MyDrone.prototype.display = function() {
    this.scene.pushMatrix();
    this.scene.translate(0, 0, -1.5);
    this.scene.scale(0.1, 0.1, 3);
+  this.scene.boxAppearance.apply();
    this.cilinder1.display();
    this.scene.popMatrix();
 
@@ -237,46 +241,58 @@ MyDrone.prototype.display = function() {
    this.scene.pushMatrix();
    this.scene.rotate(-Math.PI / 2, 1, 0, 0);
    this.scene.scale(0.85, 0.85, 0.85);
-   this.scene.boardAppearance.apply();
+   this.scene.blueAppearance.apply();
    this.body.display();
-   this.scene.materialB.apply();
+   this.scene.materialA.apply();
    this.circle.display();
    this.scene.popMatrix();
 
+/*fronte*/
    this.scene.pushMatrix();
    this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-   this.scene.translate(1.7, 0, -0.15);
+   this.scene.translate(0, -1.66, -0.15);
    this.scene.scale(0.17, 0.17, 0.25); //ultimo é a altura
+   this.scene.boxAppearance.apply();
+   this.cilinder2.display();
+   this.scene.popMatrix();
+
+   this.scene.pushMatrix();
+   this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+   this.scene.translate(1.66, 0, -0.15);
+   this.scene.scale(0.17, 0.17, 0.25); //ultimo é a altura
+   this.scene.materialA.apply();
    this.cilinder2.display();
    this.scene.popMatrix();
 
 
    this.scene.pushMatrix();
    this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-   this.scene.translate(-1.7, 0, -0.15);
+   this.scene.translate(-1.66, 0, -0.15);
    this.scene.scale(0.17, 0.17, 0.25); //ultimo é a altura
    this.cilinder2.display();
    this.scene.popMatrix();
 
    this.scene.pushMatrix();
    this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-   this.scene.translate(0, 1.7, -0.15);
+   this.scene.translate(0, 1.66, -0.15);
    this.scene.scale(0.17, 0.17, 0.25); //ultimo é a altura
+
    this.cilinder2.display();
    this.scene.popMatrix();
 
    this.scene.pushMatrix();
-   this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-   this.scene.translate(0, -1.7, -0.15);
-   this.scene.scale(0.17, 0.17, 0.25); //ultimo é a altura
-   this.cilinder2.display();
-   this.scene.popMatrix();
-
+   this.scene.translate(0, 0.15, 1.7);
+   this.scene.rotate(Math.PI / 2, 1, 0, 0);
+   this.scene.rotate(-this.frontArm.angle, 0, 0, 1);
+   this.scene.GreenAppearance.apply();
+   this.frontArm.display();
+   this.scene.popMatrix(); //front
 
    this.scene.pushMatrix();
    this.scene.translate(1.7, 0.15, 0);
    this.scene.rotate(Math.PI / 2, 1, 0, 0);
    this.scene.rotate(this.sideArm.angle, 0, 0, 1);
+   this.scene.VioAppearance.apply();
    this.sideArm.display();
    this.scene.popMatrix();
 
@@ -287,12 +303,7 @@ MyDrone.prototype.display = function() {
    this.sideArm.display();
    this.scene.popMatrix();
 
-   this.scene.pushMatrix();
-   this.scene.translate(0, 0.15, 1.7);
-   this.scene.rotate(Math.PI / 2, 1, 0, 0);
-   this.scene.rotate(-this.frontArm.angle, 0, 0, 1);
-   this.frontArm.display();
-   this.scene.popMatrix(); //front
+
 
    this.scene.pushMatrix();
    this.scene.translate(0, 0.15, -1.7);
@@ -305,6 +316,7 @@ MyDrone.prototype.display = function() {
    this.scene.translate(-0.5,-1.0,0.2);
    this.scene.rotate(Math.PI, 0, 1,0);
    this.scene.scale(0.9, 0.9, 0.9);
+  this.scene.backAppearance.apply();
    this.legs.display();
    this.scene.popMatrix();
 

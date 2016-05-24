@@ -43,11 +43,11 @@ LightingScene.prototype.init = function(application) {
    this.floor = new MyQuad(this, 0, 10, 0, 12);
    this.boardA = new Plane(this, BOARD_A_DIVISIONS, -0.5, 1.5, 0, 1);
    this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
-   this.prism = new MyPrism(this, 8, 20);
+   //this.prism = new MyPrism(this, 8, 20);
    this.cilinder = new MyCilinder(this, 8, 20);
    this.clock = new MyClock(this, 12, 1);
    this.drone = new MyDrone(this);
-   this.target= new MyQuad(this, 0, 1, 0, 1);
+   this.target= new MyCircle(this, 15);
 
 
 
@@ -129,6 +129,48 @@ LightingScene.prototype.init = function(application) {
    this.targetAppearance.setShininess(150);
    this.targetAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
    this.targetAppearance.loadTexture("..//resources//images//alvo.png");
+
+   this.boxAppearance = new CGFappearance(this);
+   this.boxAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
+   this.boxAppearance.setShininess(150);
+   this.boxAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
+   this.boxAppearance.loadTexture("..//resources//images//box.png");
+
+   this.fronteAppearance = new CGFappearance(this);
+   this.fronteAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
+   this.fronteAppearance.setShininess(150);
+   this.fronteAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
+   this.fronteAppearance.loadTexture("..//resources//images//dronefronte.png");
+
+   this.backAppearance = new CGFappearance(this);
+   this.backAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
+   this.backAppearance.setShininess(150);
+   this.backAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
+   this.backAppearance.loadTexture("..//resources//images//droneback.png");
+
+   this.blueAppearance = new CGFappearance(this);
+   this.blueAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
+   this.blueAppearance.setShininess(150);
+   this.blueAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
+   this.blueAppearance.loadTexture("..//resources//images//azul.png");
+
+   this.GreenAppearance = new CGFappearance(this);
+   this.GreenAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
+   this.GreenAppearance.setShininess(150);
+   this.GreenAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
+   this.GreenAppearance.loadTexture("..//resources//images//verde.png");
+
+   this.VioAppearance = new CGFappearance(this);
+   this.VioAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
+   this.VioAppearance.setShininess(150);
+   this.VioAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
+   this.VioAppearance.loadTexture("..//resources//images//violeta.png");
+
+   this.greyAppearance = new CGFappearance(this);
+   this.greyAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
+   this.greyAppearance.setShininess(150);
+   this.greyAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
+   this.greyAppearance.loadTexture("..//resources//images//cinza.png");
 
 
 
@@ -275,15 +317,12 @@ LightingScene.prototype.display = function() {
    this.popMatrix();
 
 
-   //Prism and cylinder
+   // cylinder
    this.pushMatrix();
-   this.translate(4, 3.7, 7.9);
+   this.translate(5, 3.7, 7.9);
    this.rotate(-Math.PI / 2, 1, 0, 0);
    this.scale(0.8,0.8,0.8)
-   this.materialB.apply();
-   //	this.boardAppearance.apply();
-   this.prism.display();
-   this.translate(3, 0, 0);
+   this.greyAppearance.apply();
    this.cilinder.display();
    this.popMatrix();
 
@@ -307,8 +346,8 @@ LightingScene.prototype.display = function() {
 
    this.pushMatrix();
    this.translate(12,3.67,8);
-   this.scale(2.5,1,2.5);
-   this.rotate(-Math.PI/2,1,0,0);
+   this.scale(1.5,1,1.5);
+   this.rotate(Math.PI/2,1,0,0);
    this.targetAppearance.apply();
    this.target.display();
    this.popMatrix();
