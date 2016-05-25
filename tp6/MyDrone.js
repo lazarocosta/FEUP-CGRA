@@ -83,7 +83,7 @@ MyDrone.prototype.destDone = function() {
 
    if (this.x < -4.75 && this.x > -6)
       if (this.z < -0.5 && this.z > -2)
-         if (dy < -0.3 && dy > -0.7) {
+         if (dy < -0.7 && dy > -1.5) {
             this.destination = true;
             this.rotation = this.angle;
          }
