@@ -15,7 +15,7 @@ MyArm.prototype = Object.create(CGFobject.prototype);
 MyArm.prototype.constructor = MyArm;
 
 MyArm.prototype.setAngle = function(angle) {
-   this.angle += (angle * this.scene.wingSpeed) % (Math.PI*2);
+   this.angle += (angle * this.scene.wingSpeed);
 };
 
 

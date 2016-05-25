@@ -20,7 +20,7 @@ LightingScene.prototype.init = function(application) {
 
    this.initLights();
 
-   this.UPDATE_PERIOD = 35;
+   this.UPDATE_PERIOD = 50;
    this.DIRECTION = {
       STATIC:           0,
       ROTATION_LEFT:    1,
@@ -31,8 +31,9 @@ LightingScene.prototype.init = function(application) {
       DOWN:             6
    };
    this.droneAppearanceList = {
-      CAMOUFLAGE : 0,
-      BAMBOO : 1
+      CAMOUFLAGE : 1,
+      BAMBOO : 2,
+      DEFAULT: 10
    };
    this.currentDIR = this.DIRECTION.STATIC;
 
@@ -52,7 +53,7 @@ LightingScene.prototype.init = function(application) {
    this.boardA = new Plane(this, BOARD_A_DIVISIONS, -0.5, 1.5, 0, 1);
    this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
    //this.droneAppearance = ['hey', 'ho', 'heeeey'];
-   this.currDroneAppearance = 1;
+   this.currDroneAppearance = this.droneAppearanceList.DEFAULT;
    this.cilinder = new MyCilinder(this, 8, 4);
    this.clock = new MyClock(this, 12, 1);
    this.drone = new MyDrone(this);
@@ -148,7 +149,8 @@ LightingScene.prototype.init = function(application) {
    this.greyAppearance = new CGFappearance(this);
    this.greyAppearance.loadTexture("..//resources//images//cinza.png");
 
-
+   this.cameoAppearance = new CGFappearance(this);
+   this.cameoAppearance.loadTexture("..//resources//images//camouflage.png");
 
    this.enableTextures(true);
    this.setUpdatePeriod(this.UPDATE_PERIOD);
@@ -219,50 +221,41 @@ LightingScene.prototype.display = function() {
    // Clear image and depth buffer everytime we update the scene
    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-
    // Initialize Model-View matrix as identity (no transformation)
    this.updateProjectionMatrix();
    this.loadIdentity();
-
    // Apply transformations corresponding to the camera position relative to the origin
    this.applyViewMatrix();
-
    // Update all lights used
    this.updateLights();
-
    // Draw axis
    this.axis.display();
 
    this.materialDefault.apply();
-
-
-
    // Floor
    this.pushMatrix();
-   this.translate(7.5, 0, 7.5);
-   this.rotate(-90 * degToRad, 1, 0, 0);
-   this.scale(15, 15, 0.2);
-
-   this.floorAppearance.apply();
-   this.floor.display();
+      this.translate(7.5, 0, 7.5);
+      this.rotate(-90 * degToRad, 1, 0, 0);
+      this.scale(15, 15, 0.2);
+      this.floorAppearance.apply();
+      this.floor.display();
    this.popMatrix();
 
    // Left Wall
    this.pushMatrix();
-   this.translate(0, 4, 7.5);
-   this.rotate(90 * degToRad, 0, 1, 0);
-   this.scale(15, 8, 0.2);
-
-   this.windowAppearance.apply();
-   this.leftWall.display();
+      this.translate(0, 4, 7.5);
+      this.rotate(90 * degToRad, 0, 1, 0);
+      this.scale(15, 8, 0.2);
+      this.windowAppearance.apply();
+      this.leftWall.display();
    this.popMatrix();
 
    // Plane Wall
    this.pushMatrix();
-   this.translate(7.5, 4, 0);
-   this.scale(15, 8, 0.2);
-   this.materialDefault.apply();
-   this.wall.display();
+      this.translate(7.5, 4, 0);
+      this.scale(15, 8, 0.2);
+      this.materialDefault.apply();
+      this.wall.display();
    this.popMatrix();
 
    // First Table
