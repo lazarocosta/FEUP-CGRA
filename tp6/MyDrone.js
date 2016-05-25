@@ -180,20 +180,22 @@ MyDrone.prototype.update = function(DIRECTION) {
 
 MyDrone.prototype.display = function() {
 
-   switch(this.scene.currDroneAppearance){
+   switch(Number(this.scene.currDroneAppearance)){
       case this.scene.droneAppearanceList.CAMOUFLAGE:
          this.droneFront = this.scene.frontAppearance;
          this.droneBody = this.scene.cameoAppearance;
          this.droneWings = this.scene.cameoAppearance;
          this.droneLegs = this.scene.cameoAppearance;
          this.droneBase = this.scene.cameoAppearance;
+         this.droneHook = this.scene.cameoAppearance;
          break;
-      case this.scene.droneAppearanceList.BAMBOO:
+      case this.scene.droneAppearanceList.WOODEN:
          this.droneFront = this.scene.frontAppearance;
-         this.droneBody = this.scene.cameoAppearance;
+         this.droneBody = this.scene.floorAppearance;
          this.droneWings = this.scene.cameoAppearance;
-         this.droneLegs = this.scene.cameoAppearance;
-         this.droneBase = this.scene.cameoAppearance;
+         this.droneLegs = this.scene.floorAppearance;
+         this.droneBase = this.scene.floorAppearance;
+         this.droneHook = this.scene.floorAppearance;
          break;
       case this.scene.droneAppearanceList.DEFAULT:
          this.droneFront = this.scene.boxAppearance;
@@ -201,6 +203,9 @@ MyDrone.prototype.display = function() {
          this.droneWings = this.scene.VioAppearance;
          this.droneLegs = this.scene.backAppearance;
          this.droneBase = this.scene.boxAppearance;
+         this.droneHook = this.scene.VioAppearance;
+         break;
+      default:
          break;
    }
 

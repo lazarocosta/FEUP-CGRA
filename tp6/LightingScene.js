@@ -32,7 +32,7 @@ LightingScene.prototype.init = function(application) {
    };
    this.droneAppearanceList = {
       CAMOUFLAGE : 1,
-      BAMBOO : 2,
+      WOODEN : 2,
       DEFAULT: 10
    };
    this.currentDIR = this.DIRECTION.STATIC;
@@ -52,7 +52,6 @@ LightingScene.prototype.init = function(application) {
    this.floor = new MyQuad(this, 0, 10, 0, 12);
    this.boardA = new Plane(this, BOARD_A_DIVISIONS, -0.5, 1.5, 0, 1);
    this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
-   //this.droneAppearance = ['hey', 'ho', 'heeeey'];
    this.currDroneAppearance = this.droneAppearanceList.DEFAULT;
    this.cilinder = new MyCilinder(this, 8, 4);
    this.clock = new MyClock(this, 12, 1);
