@@ -16,13 +16,13 @@
 
 
 MyHook.prototype.setStrain = function(direction){
-    if(direction==-1)
+    if(direction == -1)
     {
       if(this.strain > 0.3)
-        this.strain-=0.1;
+        this.strain -= 0.1;
     }
-    if(direction==1)
-    this.strain+=0.1;
+    if(direction == 1)
+    this.strain += 0.1;
   }
 
 
@@ -35,7 +35,6 @@ MyHook.prototype.setStrain = function(direction){
    this.hook.display();
    this.scene.popMatrix();
 
-//........................
    this.scene.pushMatrix();
    this.scene.rotate(Math.PI/2,1,0,0);
    this.scene.translate(0,0,this.strain);

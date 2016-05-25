@@ -69,9 +69,9 @@ MyDrone.prototype.move = function(horMov, vertMov) {
 MyDrone.prototype.ifLift = function() {
 
    var dy = this.y - this.strain;
-   if (this.x >= 1.60 && (this.x <= 2.1)) {
-      if ((this.z <= -5.7) && (this.z >= -6.3)) {
-         if (dy >= -4.2 && dy <= -3.8)
+   if (this.x >= 1.4 && (this.x <= 2.1)) {
+      if ((this.z <= -5.5) && (this.z >= -6.5)) {
+         if (dy >= -4.5 && dy <= -3.5)
             this.upBox = true;
       }
    }
@@ -81,9 +81,9 @@ MyDrone.prototype.destDone = function() {
 
    var dy = this.y - this.strain;
 
-   if (this.x < -4.75 && this.x > -6)
+   if (this.x < -4.5 && this.x > -6)
       if (this.z < -0.5 && this.z > -2)
-         if (dy < -0.7 && dy > -1.5) {
+         if (dy < 0 && dy > -1.5) {
             this.destination = true;
             this.rotation = this.angle;
          }
@@ -93,17 +93,12 @@ MyDrone.prototype.destDone = function() {
 
 MyDrone.prototype.setStrain = function(direcion) {
 
-   if (direcion == -1) {
-      if (this.strain > 0.3)
-         this.strain -= 0.1;
-   }
-   if (direcion == 1)
-      this.strain += 0.1;
 
    this.hook.setStrain(direcion);
+   this.strain= this.hook.strain;
 
-   var esta = this.y - this.strain;
-   console.log(esta);
+  // var esta = this.y - this.strain;
+   //console.log(esta);
    this.ifLift();
    this.destDone();
 
@@ -120,10 +115,10 @@ MyDrone.prototype.setIncline = function(tilt) {
       else if(this.movementTilt > 0)
          this.movementTilt -= 5;
    }
-   if(this.movementTilt > 55)
-      this.movementTilt = 55;
-   else if(this.movementTilt < -55)
-      this.movementTilt = -55;
+   if(this.movementTilt > 45)
+      this.movementTilt = 45;
+   else if(this.movementTilt < -45)
+      this.movementTilt = -45;
 };
 
 MyDrone.prototype.up = function(value) {
@@ -132,8 +127,8 @@ MyDrone.prototype.up = function(value) {
    this.destDone();
    this.ifLift();
 
-   var esta = this.y - this.strain;
-   console.log(esta);
+   //var esta = this.y - this.strain;
+   //console.log(esta);
 };
 
 MyDrone.prototype.update = function(DIRECTION) {
