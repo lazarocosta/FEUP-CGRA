@@ -2,95 +2,76 @@
  * MyPrism
  * @constructor
  */
- function MyCilinder(scene, slices, stacks) {
- 	CGFobject.call(this,scene);
+function MyCilinder(scene, slices, stacks) {
+   CGFobject.call(this, scene);
 
-	this.slices = slices;
-	this.stacks = stacks;
-	this.angulo = (2*Math.PI )/ slices;
-  this.circle= new MyCircle(this.scene, slices);
-  this.textS = 1.0 / this.slices;
-  this.textT = 1.0 / this.stacks;
+   this.slices = slices;
+   this.stacks = stacks;
+   this.circle= new MyCircle(this.scene, slices);
 
- 	this.initBuffers();
- };
+   this.initBuffers();
+}
 
 MyCilinder.prototype = Object.create(CGFobject.prototype);
- MyCilinder.prototype.constructor = MyCilinder;
+MyCilinder.prototype.constructor = MyCilinder;
 
- MyCilinder.prototype.initBuffers = function() {
- 	/*
- 	* TODO:
- 	* Replace the following lines in order to build a prism with a **single mesh**.
- 	*
- 	* How can the vertices, indices and normals arrays be defined to
- 	* build a prism with varying number of slices and stacks?
- 	*/
+MyCilinder.prototype.initBuffers = function() {
+   /*
+    * TODO:
+    * Replace the following lines in order to build a prism with a **single mesh**.
+    *
+    * How can the vertices, indices and normals arrays be defined to
+    * build a prism with varying number of slices and stacks?
+    */
 
- 	this.vertices = [];
-  this.indices = [];
-  this.normals = [];
-  this.texCoords = [];
+   this.vertices = [];
+   this.indices = [];
+   this.normals = [];
+   this.texCoords = [];
 
-  var norm = 0;
-  var z=0;
-  var incre_z= 1/this.stacks;
+   var ang = 2 * Math.PI / this.slices;
+      var n=0;
+      var tCoord = 1;
+      var sPatch = 1/this.slices;
+      var tPatch = 1/this.stacks;
+   //Vertices & Normals
+   for (var ind = 0; ind <= this.stacks; ind++) {
 
-  var s;
-  var t=0;
+      var sCoord = 0;
 
-   for(stack=0; stack < this.stacks+1;stack++)
-    {
-       var x;
-      var y;
-      s=0;
-
-      for(slices=0; slices < this.slices; slices++)
-      {
-        x= Math.cos(norm);
-        y= Math.sin(norm);
-
-
-
-        	this.vertices.push(x,y,z);
-          this.normals.push(x,y,1);
-        	this.texCoords.push(s, t);
-
-          norm += this.angulo
-            s += this.textS;
-
+      for (var m = 0; m < this.slices; m++) {
+         this.vertices.push(Math.cos(ang * m), Math.sin(ang * m), n);
+         this.texCoords.push(sCoord, tCoord);
+         this.normals.push(Math.cos(ang * m), Math.sin(ang * m), 0);
+         sCoord += sPatch;
       }
-      t += this.textT;
-      z += incre_z;
-    }
-for(pilha=0; pilha < this.stacks; pilha++)
-{
+      tCoord -= tPatch;
+      n += 1/this.stacks;
+   }
 
+   //Indices
+   for (var j = 0; j < this.stacks; j++) {
+      for (var i = 0; i < (this.slices); i += 1) {
+         this.indices.push((i + 1) % (this.slices) + (j + 0) * this.slices,
+                           (i + 0) % (this.slices) + (j + 1) * this.slices,
+                           (i + 0) % (this.slices) + (j + 0) * this.slices);
 
-    var lados=0;
+         this.indices.push((i + 0) % (this.slices) + (j + 1) * this.slices,
+                           (i + 1) % (this.slices) + (j + 0) * this.slices,
+                           (i + 1) % (this.slices) + (j + 1) * this.slices);
+      }
 
-   for(lados=0; lados < this.slices -1; lados++)
-    {
-      this.indices.push(lados+pilha*this.slices ,lados+1+pilha*this.slices,lados+this.slices+pilha*this.slices);
-      this.indices.push(lados+this.slices+1+pilha*this.slices,lados+this.slices+pilha*this.slices, lados+1+pilha*this.slices);
+   }
 
-    }
-    this.indices.push(this.slices -1+pilha*this.slices,pilha*this.slices,(pilha+2) *this.slices -1);
-    this.indices.push(pilha*this.slices,(pilha+1)*this.slices, (pilha+2) *this.slices -1);
-  }
+   this.primitiveType = this.scene.gl.TRIANGLES;
+   this.initGLBuffers();
+};
 
-
-
- 	this.primitiveType = this.scene.gl.TRIANGLES;
- 	this.initGLBuffers();
- };
-
- MyCilinder.prototype.display = function() {
+MyCilinder.prototype.display = function() {
 
    CGFobject.prototype.display.call(this);
     this.circle.display();
     this.scene.rotate(Math.PI,1,0,0);
     this.scene.translate(0,0,-1);
     this.circle.display();
-
-  }
+};

@@ -22,7 +22,6 @@ MyInterface.prototype.init = function(application) {
 
    // init GUI. For more information on the methods, check:
    //  http://workshop.chromeexperiments.com/examples/gui
-
    this.gui = new dat.GUI();
 
    // add a button:
@@ -33,12 +32,8 @@ MyInterface.prototype.init = function(application) {
    this.gui.add(this.scene, 'UpdateTime');
 
    // add a group of controls (and open/expand by defult)
-
    var group = this.gui.addFolder("Luzes");
    group.open();
-
-   // add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
-   // e.g. this.option1=true; this.option2=false;
 
    group.add(this.scene, 'luz0');
    group.add(this.scene, 'luz1');
@@ -46,14 +41,8 @@ MyInterface.prototype.init = function(application) {
    group.add(this.scene, 'luz3');
    group.add(this.scene, 'luz4');
 
-
-   // add a slider
-   // must be a numeric variable of the scene, initialized in scene.init e.g.
-   // this.speed=3;
-   // min and max values can be specified as parameters
-
-   //	this.gui.add(this.scene, 'speed', -5, 5);
-   //	this.gui.add(this.scene, 'Luzes');
+	this.gui.add(this.scene, 'wingSpeed', 0.1, 2.0);
+   this.gui.add(this.scene, 'currDroneAppearance', this.scene.droneAppearanceList);
 
    return true;
 };
@@ -66,9 +55,6 @@ MyInterface.prototype.processKeyUp = function(event) {
    // call CGFinterface default code (omit if you want to override)
    CGFinterface.prototype.processKeyUp.call(this, event);
 	this.scene.currentDIR = this.scene.DIRECTION.STATIC;
-   this.scene.drone.setIncline(0);
-
-
 };
 
 
@@ -85,71 +71,44 @@ MyInterface.prototype.processKeyboard = function(event) {
 
    // for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
    switch (event.which || event.keyCode) {
-      case (65): // only works for capital 'A', as it is
-         this.scene.drone.setAngle(5);
-			this.scene.currentDIR = this.scene.DIRECTION.ROTATION;
+      //A
+      case (65): // Uppercase
+      case (97): // Lowercase
+         this.scene.currentDIR = this.scene.DIRECTION.ROTATION_LEFT;
          break;
-      case (97): // only works for capital 'a', as it is
-         this.scene.drone.setAngle(5);
-			this.scene.currentDIR = this.scene.DIRECTION.ROTATION;
+      //D
+      case (68): // Uppercase
+      case (100): // Lowercase
+			this.scene.currentDIR = this.scene.DIRECTION.ROTATION_RIGHT;
          break;
-
-      case (68): // only works for capital 'D', as it is
-         this.scene.drone.setAngle(-5);
-			this.scene.currentDIR = this.scene.DIRECTION.ROTATION;
+      //W
+      case (87): // Uppercase
+      case (119): // Lowercase
+			this.scene.currentDIR = this.scene.DIRECTION.FORWARD;
          break;
-      case (100): // only works for capital 'd', as it is
-         this.scene.drone.setAngle(-5);
-			this.scene.currentDIR = this.scene.DIRECTION.ROTATION;
+      //S
+      case (83): // Uppercase
+      case (115): // Lowercase
+			this.scene.currentDIR = this.scene.DIRECTION.BACKWARD;
          break;
-
-      case (87): // only works for capital 'W', as it is
-         this.scene.drone.move(0.25);
-         this.scene.drone.setIncline(true);
-			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
+      //I
+      case (73): // Uppercase
+      case (105): // Lowercase
+         this.scene.currentDIR = this.scene.DIRECTION.UP;
          break;
-      case (119): // only works for capital 'w', as it is
-         this.scene.drone.move(0.25);
-         this.scene.drone.setIncline(true);
-			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
+      //J
+      case (74): // Uppercase
+      case (106): // Lowercase
+         this.scene.currentDIR = this.scene.DIRECTION.DOWN;
          break;
-
-      case (83): // only works for capital 'S', as it is
-         this.scene.drone.move(-0.25);
-         this.scene.drone.setIncline(-1);
-			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
-         break;
-      case (115): // only works for capital 's', as it is
-         this.scene.drone.move(-0.25);
-         this.scene.drone.setIncline(-1);
-			this.scene.currentDIR = this.scene.DIRECTION.TRANSLATION;
-         break;
-
-      case (73): // only works for capital 'I', as it is
-         this.scene.drone.up(0.25);
-         break;
-      case (105): // only works for capital 'i', as it is
-         this.scene.drone.up(0.25);
-         break;
-
-      case (74): // only works for capital 'J', as it is
-         this.scene.drone.up (-0.25);
-         break;
-      case (106): // only works for capital 'j', as it is
-         this.scene.drone.up(-0.25);
-         break;
-
-      case (80): // only works for capital 'P', as it is
+      //P
+      case (80): // Uppercase
+      case (112): // Lowercase
           this.scene.drone.setStrain(-1);
           break;
-      case (112): // only works for capital 'p', as it is
-          this.scene.drone.setStrain(-1);
-          break;
-
-      case (76): // only works for capital 'L', as it is
-          this.scene.drone.setStrain(1);
-          break;
-      case (108): // only works for capital 'l', as it is
+      //L
+      case (76): // Uppercase
+      case (108): // Lowercase
           this.scene.drone.setStrain(1);
           break;
    }

@@ -20,12 +20,20 @@ LightingScene.prototype.init = function(application) {
 
    this.initLights();
 
+   this.UPDATE_PERIOD = 35;
    this.DIRECTION = {
-      STATIC: 0,
-      ROTATION: 1,
-      TRANSLATION: 2
+      STATIC:           0,
+      ROTATION_LEFT:    1,
+      ROTATION_RIGHT:   2,
+      FORWARD:          3,
+      BACKWARD:         4,
+      UP:               5,
+      DOWN:             6
    };
-
+   this.droneAppearanceList = {
+      CAMOUFLAGE : 0,
+      BAMBOO : 1
+   };
    this.currentDIR = this.DIRECTION.STATIC;
 
    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -43,23 +51,20 @@ LightingScene.prototype.init = function(application) {
    this.floor = new MyQuad(this, 0, 10, 0, 12);
    this.boardA = new Plane(this, BOARD_A_DIVISIONS, -0.5, 1.5, 0, 1);
    this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
-   //this.prism = new MyPrism(this, 8, 20);
-   this.cilinder = new MyCilinder(this, 8, 20);
+   //this.droneAppearance = ['hey', 'ho', 'heeeey'];
+   this.currDroneAppearance = 1;
+   this.cilinder = new MyCilinder(this, 8, 4);
    this.clock = new MyClock(this, 12, 1);
    this.drone = new MyDrone(this);
-   this.target= new MyCircle(this, 15);
-
-
+   this.target = new MyCircle(this, 15);
 
    this.luz0 = true;
    this.luz1 = true;
    this.luz2 = true;
    this.luz3 = true;
    this.luz4 = true;
-   //this.speed = 3;
+   this.wingSpeed = 1;
    this.UpdateTime = true;
-
-
 
    // Materials
    this.materialDefault = new CGFappearance(this);
@@ -81,8 +86,6 @@ LightingScene.prototype.init = function(application) {
    this.materialC.setDiffuse(0, 0, 0, 1);
    this.materialC.setSpecular(0, 0, 0, 1);
    this.materialC.setShininess(1);
-
-
 
    this.tableAppearance = new CGFappearance(this);
    this.tableAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -119,63 +122,36 @@ LightingScene.prototype.init = function(application) {
    this.boardAppearance.loadTexture("..//resources//images//board.png");
 
    this.clockAppearance = new CGFappearance(this);
-   this.clockAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
-   this.clockAppearance.setShininess(150);
-   this.clockAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
    this.clockAppearance.loadTexture("..//resources//images//clock.png");
 
    this.targetAppearance = new CGFappearance(this);
-   this.targetAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
-   this.targetAppearance.setShininess(150);
-   this.targetAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
    this.targetAppearance.loadTexture("..//resources//images//alvo.png");
 
    this.boxAppearance = new CGFappearance(this);
-   this.boxAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
-   this.boxAppearance.setShininess(150);
-   this.boxAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
    this.boxAppearance.loadTexture("..//resources//images//box.png");
 
-   this.fronteAppearance = new CGFappearance(this);
-   this.fronteAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
-   this.fronteAppearance.setShininess(150);
-   this.fronteAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
-   this.fronteAppearance.loadTexture("..//resources//images//dronefronte.png");
+   this.frontAppearance = new CGFappearance(this);
+   this.frontAppearance.loadTexture("..//resources//images//dronefront.png");
 
    this.backAppearance = new CGFappearance(this);
-   this.backAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
-   this.backAppearance.setShininess(150);
-   this.backAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
    this.backAppearance.loadTexture("..//resources//images//droneback.png");
 
    this.blueAppearance = new CGFappearance(this);
-   this.blueAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
-   this.blueAppearance.setShininess(150);
-   this.blueAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
    this.blueAppearance.loadTexture("..//resources//images//azul.png");
 
    this.GreenAppearance = new CGFappearance(this);
-   this.GreenAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
-   this.GreenAppearance.setShininess(150);
-   this.GreenAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
    this.GreenAppearance.loadTexture("..//resources//images//verde.png");
 
    this.VioAppearance = new CGFappearance(this);
-   this.VioAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
-   this.VioAppearance.setShininess(150);
-   this.VioAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
    this.VioAppearance.loadTexture("..//resources//images//violeta.png");
 
    this.greyAppearance = new CGFappearance(this);
-   this.greyAppearance.setSpecular(0.4, 0.4, 0.4, 1.0);
-   this.greyAppearance.setShininess(150);
-   this.greyAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
    this.greyAppearance.loadTexture("..//resources//images//cinza.png");
 
 
 
    this.enableTextures(true);
-   this.setUpdatePeriod(100);
+   this.setUpdatePeriod(this.UPDATE_PERIOD);
 
 };
 
@@ -194,6 +170,7 @@ LightingScene.prototype.initLights = function() {
    this.lights[0].setDiffuse(1, 1, 1, 1);
    this.lights[0].setSpecular(1, 1, 1, 1);
    this.lights[0].enable();
+   this.lights[0].visible = true;
 
    this.lights[1].setPosition(10.5, 6, 1, 1.0);
    this.lights[1].setAmbient(0.5, 0.5, 0.5, 1);
@@ -321,7 +298,7 @@ LightingScene.prototype.display = function() {
    this.pushMatrix();
    this.translate(5, 3.7, 7.9);
    this.rotate(-Math.PI / 2, 1, 0, 0);
-   this.scale(0.8,0.8,0.8)
+   this.scale(0.8, 0.8, 0.8);
    this.greyAppearance.apply();
    this.cilinder.display();
    this.popMatrix();
@@ -345,40 +322,21 @@ LightingScene.prototype.display = function() {
    this.popMatrix();
 
    this.pushMatrix();
-   this.translate(12,3.67,8);
-   this.scale(1.5,1,1.5);
-   this.rotate(Math.PI/2,1,0,0);
+   this.translate(12, 3.67, 8);
+   this.scale(1.5, 1, 1.5);
+   this.rotate(Math.PI / 2, 1, 0, 0);
    this.targetAppearance.apply();
    this.target.display();
    this.popMatrix();
 
 
 
-   //==========================linghts
-   if (this.luz0 === true)
-      this.lights[0].setVisible(true);
-   else
-      this.lights[0].setVisible(false);
-
-   if (this.luz1 === true)
-      this.lights[1].setVisible(true);
-   else
-      this.lights[1].setVisible(false);
-
-   if (this.luz2 === true)
-      this.lights[2].setVisible(true);
-   else
-      this.lights[2].setVisible(false);
-
-   if (this.luz3 === true)
-      this.lights[3].setVisible(true);
-   else
-      this.lights[3].setVisible(false);
-
-   if (this.luz4 === true)
-      this.lights[4].setVisible(true);
-   else
-      this.lights[4].setVisible(false);
+   //==========================lights
+   this.lights[0].setVisible(this.luz0 === true ? true : false);
+   this.lights[1].setVisible(this.luz1 === true ? true : false);
+   this.lights[2].setVisible(this.luz2 === true ? true : false);
+   this.lights[3].setVisible(this.luz3 === true ? true : false);
+   this.lights[4].setVisible(this.luz4 === true ? true : false);
    //==============================================0
 };
 
@@ -388,6 +346,7 @@ LightingScene.prototype.update = function(currTime) {
    if (this.UpdateTime === true)
       this.clock.update(currTime);
 };
+
 LightingScene.prototype.doSomething = function() {
    console.log("Doing something...");
 

@@ -15,13 +15,13 @@
  MyHook.prototype.constructor = MyHook;
 
 
-MyHook.prototype.setStrain = function(direcion){
-    if(direcion==-1)
+MyHook.prototype.setStrain = function(direction){
+    if(direction==-1)
     {
       if(this.strain > 0.3)
         this.strain-=0.1;
     }
-    if(direcion==1)
+    if(direction==1)
     this.strain+=0.1;
   }
 
