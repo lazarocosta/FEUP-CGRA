@@ -7,11 +7,8 @@ function MyLegs(scene, slices, stacks) {
 
    this.slices = slices;
    this.stacks = stacks;
-   this.angulo = (2 * Math.PI) / (4 * this.slices);
    this.increZ = 1 / this.stacks;
    this.base = new MyUnitCubeQuad(this.scene);
-   //  this.textS = 1.0 / this.slices;
-   //this.textT = 1.0 / this.stacks;
 
    this.initBuffers();
 }
@@ -21,49 +18,52 @@ MyLegs.prototype.constructor = MyLegs;
 
 MyLegs.prototype.initBuffers = function() {
 
-   this.vertices = [];
-   this.indices = [];
-   this.normals = [];
-   //this.texCoords = [];
+      this.vertices = [];
+      this.indices = [];
+      this.normals = [];
+      this.texCoords = [];
 
-   var x, y, z, i, j;
+      var ang = (2 * Math.PI) / (4 * this.slices);
+      var n=0;
+      var tCoord = 1;
+      var sPatch = 1/this.slices;
+      var tPatch = 1/this.stacks;
+      //Vertices & Normals
+      for (var ind = 0; ind <= this.stacks; ind++) {
 
-   for (i = 0; i <= this.slices; i++) {
-      x = Math.cos(i * this.angulo);
-      y = Math.sin(i * this.angulo);
-      z = 0;
+         var sCoord = 0;
 
-      this.vertices.push(x, y, z);
-      this.normals.push(x, y, z);
-
-      for (j = 0; j < this.stacks - 1; j++) {
-         z += this.increZ;
-         this.vertices.push(x, y, z);
-         this.normals.push(x, y, z);
-
+         for (var m = 0; m < this.slices; m++) {
+            this.vertices.push(Math.cos(ang * m), Math.sin(ang * m), n);
+            this.texCoords.push(sCoord, tCoord);
+            this.normals.push(Math.cos(ang * m), Math.sin(ang * m), 0);
+            sCoord += sPatch;
+         }
+         tCoord -= tPatch;
+         n += 1/this.stacks;
       }
 
-      z += this.increZ;
-      this.vertices.push(x, y, z);
-      this.normals.push(x, y, z);
-   }
+      //Indices
+      for (var j = 0; j < this.stacks; j++) {
+         for (var i = 0; i < (this.slices-1); i += 1) {
+            this.indices.push((i + 1) % (this.slices) + (j + 0) * this.slices,
+                              (i + 0) % (this.slices) + (j + 1) * this.slices,
+                              (i + 0) % (this.slices) + (j + 0) * this.slices);
 
-   for (i = 0; i < this.slices; i++) {
-      this.indices.push(i * (this.stacks + 1), (this.stacks + 1) * i + 1, (this.stacks + 1) * i + (this.stacks + 1));
-      this.indices.push((this.stacks + 1) * i + (this.stacks + 1), (this.stacks + 1) * i + 1, (this.stacks + 1) * i + (this.stacks + 1) + 1);
+            this.indices.push((i + 0) % (this.slices) + (j + 0) * this.slices,
+                              (i + 0) % (this.slices) + (j + 1) * this.slices,
+                              (i + 1) % (this.slices) + (j + 0) * this.slices);
 
-      for (j = 1; j < this.stacks; j++) {
-         this.indices.push(i * (this.stacks + 1) + j, i * (this.stacks + 1) + j + 1, (i + 1) * (this.stacks + 1) + j);
-         this.indices.push((i + 1) * (this.stacks + 1) + j, i * (this.stacks + 1) + j + 1, (i + 1) * (this.stacks + 1) + j + 1); //
-         //
-         this.indices.push((i + 1) * (this.stacks + 1) + j, i * (this.stacks + 1) + j + 1, i * (this.stacks + 1) + j);
-         this.indices.push((i + 1) * (this.stacks + 1) + j + 1, i * (this.stacks + 1) + j + 1, (i + 1) * (this.stacks + 1) + j);
+            this.indices.push((i + 0) % (this.slices) + (j + 1) * this.slices,
+                              (i + 1) % (this.slices) + (j + 0) * this.slices,
+                              (i + 1) % (this.slices) + (j + 1) * this.slices);
+
+            this.indices.push((i + 1) % (this.slices) + (j + 1) * this.slices,
+                              (i + 1) % (this.slices) + (j + 0) * this.slices,
+                              (i + 0) % (this.slices) + (j + 1) * this.slices);
+         }
 
       }
-      this.indices.push((this.stacks + 1) * i + (this.stacks + 1), (this.stacks + 1) * i + 1, i * (this.stacks + 1));
-      this.indices.push((this.stacks + 1) * i + (this.stacks + 1) + 1, (this.stacks + 1) * i + 1, (this.stacks + 1) * i + (this.stacks + 1));
-
-   }
 
    this.primitiveType = this.scene.gl.TRIANGLES;
    this.initGLBuffers();
@@ -78,14 +78,14 @@ MyLegs.prototype.display = function() {
    this.scene.popMatrix();
 
    this.scene.pushMatrix();
-   this.scene.translate(0, 0.2, -0.6);
+   this.scene.translate(0, 0.2, -0.65);
    this.scene.scale(1, 1, 0.25);
    CGFobject.prototype.display.call(this);
    this.scene.popMatrix();
 
    this.scene.pushMatrix();
    this.scene.translate(1, 0.2, 0.2);
-   this.scene.scale(0.5, 0.25, 3);
+   this.scene.scale(0.3, 0.25, 3);
    this.base.display();
    this.scene.popMatrix();
 };

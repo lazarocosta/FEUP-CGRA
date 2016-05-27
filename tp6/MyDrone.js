@@ -329,7 +329,7 @@ MyDrone.prototype.display = function() {
    this.scene.popMatrix();
 
    this.scene.pushMatrix();
-   this.scene.translate(-0.5, -0.6, 0.2);
+   this.scene.translate(-0.45, -0.5, 0.1);
    this.scene.rotate(Math.PI, 0, 1, 0);
    this.scene.scale(0.7, 0.5, 0.7);
    this.droneLegs.apply();
@@ -337,7 +337,7 @@ MyDrone.prototype.display = function() {
    this.scene.popMatrix();
 
    this.scene.pushMatrix();
-   this.scene.translate(0.5, -0.6, -0.2);
+   this.scene.translate(0.45, -0.5, -0.1);
    this.scene.scale(0.7, 0.5, 0.7);
    this.legs.display();
    this.scene.popMatrix();
